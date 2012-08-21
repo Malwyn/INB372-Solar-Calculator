@@ -39,7 +39,16 @@ public class SolarCalculatorProject implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
+		final Button helloButton = new Button("Click me");
+		final MyHandler handler = new MyHandler();
+		
+		helloButton.addClickHandler(handler);
+		
+/*		final Button sendButton = new Button("Send");
+		final Button b1 = new Button("One");
+		final Button b2 = new Button("Two");
+		final Button b3 = new Button("Three");
+
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
 		final Label errorLabel = new Label();
@@ -74,6 +83,9 @@ public class SolarCalculatorProject implements EntryPoint {
 		dialogVPanel.add(serverResponseLabel);
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
 		dialogVPanel.add(closeButton);
+		dialogVPanel.add(b1);
+		dialogVPanel.add(b2);
+		dialogVPanel.add(b3);
 		dialogBox.setWidget(dialogVPanel);
 
 		// Add a handler to close the DialogBox
@@ -87,25 +99,19 @@ public class SolarCalculatorProject implements EntryPoint {
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
+			// Fired when the user clicks on the sendButton.
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
+			// Fired when the user types in the nameField.
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					sendNameToServer();
 				}
 			}
 
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
+			// Send the name from the nameField to the server and wait for a response.
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
@@ -147,6 +153,6 @@ public class SolarCalculatorProject implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
+		nameField.addKeyUpHandler(handler); */
 	}
 }
