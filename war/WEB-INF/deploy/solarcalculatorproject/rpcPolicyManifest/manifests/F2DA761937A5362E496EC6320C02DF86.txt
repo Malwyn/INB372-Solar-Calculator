@@ -1,0 +1,2 @@
+serviceClass: com.inb372.solarcalc.client.GreetingService
+path: FE6CDBDACE904840729D591BF4464D3D.gwt.rpc

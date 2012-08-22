@@ -10,12 +10,24 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,120 +51,45 @@ public class SolarCalculatorProject implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button helloButton = new Button("Click me");
-		final MyHandler handler = new MyHandler();
+		final Label helloLabel = new Label("Label");
+		final Button hButton = new Button("Button");
+		final PushButton hPushButton = new PushButton("PushButton");
+		final RadioButton hRadioButton1 = new RadioButton("RadioButton");
+		final RadioButton hRadioButton2 = new RadioButton("RadioButton");
+		final CheckBox hCheckBox = new CheckBox("CheckBox");
+		final DatePicker hDatePicker = new DatePicker();
+		final ToggleButton hToggleButton = new ToggleButton("ToggleButton");
+		final TextBox hTextBox = new TextBox();
+		final PasswordTextBox hPasswordTextBox = new PasswordTextBox();
+		final TextArea hTextArea = new TextArea();
+		final ListBox hListBox = new ListBox();
+		final MenuBar hMenuBar = new MenuBar();
+		final SuggestBox hSuggestBox = new SuggestBox();
+		final TabPanel hTabPanel = new TabPanel();
 		
-		helloButton.addClickHandler(handler);
+		RootPanel.get("gwtContainer").add(hTabPanel);
 		
-/*		final Button sendButton = new Button("Send");
-		final Button b1 = new Button("One");
-		final Button b2 = new Button("Two");
-		final Button b3 = new Button("Three");
-
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
-		final Label errorLabel = new Label();
-
-		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
-
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
-
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
-
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogVPanel.add(b1);
-		dialogVPanel.add(b2);
-		dialogVPanel.add(b3);
-		dialogBox.setWidget(dialogVPanel);
-
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
-			}
-		});
-
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			// Fired when the user clicks on the sendButton.
-			public void onClick(ClickEvent event) {
-				sendNameToServer();
-			}
-
-			// Fired when the user types in the nameField.
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
-
-			// Send the name from the nameField to the server and wait for a response.
-			private void sendNameToServer() {
-				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
-					errorLabel.setText("Please enter at least four characters");
-					return;
-				}
-
-				// Then, we send the input to the server.
-				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
-				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-
-							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-						});
-			}
-		}
-
-		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler); */
+		final FlowPanel p1 = new FlowPanel();
+		final VerticalPanel p2 = new VerticalPanel();
+		final VerticalPanel p3 = new VerticalPanel();
+		
+		hTabPanel.add(p1, "First");
+		hTabPanel.add(p2, "Second");
+		hTabPanel.add(p3, "Third");
+		
+		p1.add(helloLabel);
+		p1.add(hButton);
+		p1.add(hPushButton);
+		p1.add(hRadioButton1);
+		p1.add(hRadioButton2);
+		p1.add(hCheckBox);
+		p2.add(hDatePicker);
+		p2.add(hToggleButton);
+		p2.add(hTextBox);
+		p3.add(hPasswordTextBox);
+		p3.add(hTextArea);
+		p3.add(hListBox);
+		p3.add(hMenuBar);
+		p3.add(hSuggestBox);
 	}
 }
